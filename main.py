@@ -33,6 +33,10 @@ def atribuir_id():
         tasks = json.load(arquivo)
         for tarefa in tasks["tarefas"]:
             ids.append(tarefa["ID"])
+    with open("Lixeira.json", "r") as arquivo:
+        tasks = json.load(arquivo)
+        for tarefa in tasks["tarefas"]:
+            ids.append(tarefa["ID"])
     if len(ids) > 0:
         id_tarefa = max(ids)+1
         return(id_tarefa)
