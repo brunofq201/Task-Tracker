@@ -1,3 +1,11 @@
 {
-    "tarefas": []
+    "tarefas": [
+        {
+            "ID": 1,
+            "nome": "Circuitos digitais",
+            "descricao": "fazer um mux",
+            "criada_em": "12/09/2026 16:35",
+            "concluida_em": "12/09/2026 16:36"
+        }
+    ]
 }

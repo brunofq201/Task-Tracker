@@ -235,3 +235,5 @@ while True:
     else:
         print("\nComando nao identificado, digite 'help' para ajuda\n")
         continue
+
+    # fazer um cache pras concluidas !!!
