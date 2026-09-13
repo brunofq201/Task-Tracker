@@ -48,7 +48,7 @@ def atribuir_id():
 def listar_tarefas(nome):
     with open(f"{nome}.json", "r") as arquivo:
         lista = json.load(arquivo)
-        print(json.dumps(lista, indent=4))
+        print(f"\n{json.dumps(lista, indent=4)}")
         if len(lista["tarefas"]) == 0:
             print("\nNenhuma tarefa ainda\n")
 
@@ -66,7 +66,7 @@ def adicionar_tarefa(id_tarefa, nome, descricao):
 
 def editar_tarefa():
     listar_tarefas("TaskTracker")
-    id_tarefa = int(input("Digite a ID da tarefa que deseja editar\n-> "))
+    id_tarefa = int(input("\nDigite a ID da tarefa que deseja editar\n-> "))
     with open("TaskTracker.json", "r") as arquivo:
         tasks = json.load(arquivo)
         achei = False
@@ -75,7 +75,7 @@ def editar_tarefa():
                 achei = True
                 break
         if achei:
-            confirm = str(input(f"Vc tem ctz q deseja editar a tarefa n {id_tarefa}? (S/n)\n-> "))
+            confirm = str(input(f"\nVc tem ctz q deseja editar a tarefa n {id_tarefa}? (S/n)\n-> "))
             if confirm.upper() == "S": 
                 novo_nome = str(input(f"Digite o novo nome\n - Anterior: {tarefa['nome']}\n-> "))
                 nova_desc = str(input(f"Digite a nova descrição\n - Anterior: {tarefa['descricao']}\n-> "))
@@ -87,8 +87,9 @@ def editar_tarefa():
                     tarefa["editado_em"] = datetime.now().strftime("%d/%m/%Y %H:%M")
                 with open("TaskTracker.json", "w") as arquivo:
                     json.dump(tasks, arquivo, indent=4)
+                print("\nTarefa alterada com sucesso.\n")
         else:
-            print(f"Não foi possivel encontrar a tarefa de ID {id_tarefa}")
+            print(f"\nNão foi possivel encontrar a tarefa de ID {id_tarefa}\n")
                 
 def remover_tarefa(id_tarefa):
     with open("TaskTracker.json", "r") as arquivo:
@@ -99,7 +100,7 @@ def remover_tarefa(id_tarefa):
                 achei = True
                 break
         if achei:
-            confirm = str(input(f"Vc tem ctz q deseja remover a tarefa n {id_tarefa}? (S/n)\n-> "))
+            confirm = str(input(f"\nVc tem ctz q deseja remover a tarefa n {id_tarefa}? (S/n)\n-> "))
             if confirm.upper() == "S":
                 with open("Lixeira.json", "r") as lixeira:
                     lixo = json.load(lixeira)
@@ -109,11 +110,12 @@ def remover_tarefa(id_tarefa):
                 tasks["tarefas"].remove(tarefa)
                 with open("TaskTracker.json", "w") as arquivo:
                     json.dump(tasks, arquivo, indent=4)
+                print("\nTarefa removida com sucesso.\n")
         else:
-            print(f"Não foi possivel encontrar a tarefa de ID {id_tarefa}")
+            print(f"\nNão foi possivel encontrar a tarefa de ID {id_tarefa}\n")
 
-def restaurar_tarefa(id_tarefa):
-    with open("Lixeira.json", "r") as lixeira:
+def restaurar_tarefa(nome, id_tarefa):
+    with open(f"{nome}.json", "r") as lixeira:
         lixo = json.load(lixeira)
         achei = False
         for tarefa in lixo["tarefas"]:
@@ -121,7 +123,7 @@ def restaurar_tarefa(id_tarefa):
                 achei = True
                 break
         if achei:
-            confirm = str(input(f"Vc tem ctz q deseja restaurar a tarefa n {id_tarefa}? (S/n)\n-> "))
+            confirm = str(input(f"\nVc tem ctz q deseja restaurar a tarefa n {id_tarefa}? (S/n)\n-> "))
             if confirm.upper() == "S":
                 lixo["tarefas"].remove(tarefa)
                 with open("TaskTracker.json", "r") as arquivo:
@@ -130,14 +132,15 @@ def restaurar_tarefa(id_tarefa):
                     tarefa["restaurado_em"] = datetime.now().strftime("%d/%m/%Y %H:%M")
                 with open("TaskTracker.json", "w") as arquivo:
                     json.dump(tasks, arquivo, indent=4)
-                with open("Lixeira.json", "w") as lixeira:
+                with open(f"{nome}.json", "w") as lixeira:
                     json.dump(lixo, lixeira, indent=4)
+                print("\nTarefa restaurada com sucesso.\n")
         else:
-            print(f"Não foi possivel encontrar a tarefa de ID {id_tarefa}")
+            print(f"\nNão foi possivel encontrar a tarefa de ID {id_tarefa}\n")
 
 def concluir_tarefa():
     listar_tarefas("TaskTracker")
-    id_tarefa = int(input("Digite a ID da tarefa que deseja concluir\n-> "))
+    id_tarefa = int(input("\nDigite a ID da tarefa que deseja concluir\n-> "))
     with open("TaskTracker.json", "r") as arquivo:
             tasks = json.load(arquivo)
             achei = False
@@ -146,7 +149,7 @@ def concluir_tarefa():
                     achei = True
                     break
             if achei:
-                confirm = str(input(f"Vc tem ctz q deseja concluir a tarefa n {id_tarefa}? (S/n)\n-> "))
+                confirm = str(input(f"\nVc tem ctz q deseja concluir a tarefa n {id_tarefa}? (S/n)\n-> "))
                 if confirm.upper() == "S":
                     with open("Concluidas.json", "r") as concluidas:
                         feitas = json.load(concluidas)
@@ -157,8 +160,9 @@ def concluir_tarefa():
                     tasks["tarefas"].remove(tarefa)
                     with open("TaskTracker.json", "w") as arquivo:
                         json.dump(tasks, arquivo, indent=4)
+                    print("\nTarefa concluida com sucesso.\n")
             else:
-                print(f"Não foi possivel encontrar a tarefa de ID {id_tarefa}")
+                print(f"\nNão foi possivel encontrar a tarefa de ID {id_tarefa}\n")
 
 def deletar_tarefas(nome):
     with open(f"{nome}.json", "r") as arquivo:
@@ -172,7 +176,7 @@ def deletar_tarefas(nome):
                 if delete2.upper() == "S":
                     with open(f"{nome}.json", "w") as arquivo:
                         json.dump({"tarefas":[]}, arquivo, indent=4)
-                    print("\nTodas as tarefas deletadas com sucesso\n")
+                    print("\nTodas as tarefas deletadas com sucesso.\n")
         else:
             listar_tarefas(nome)
             print("\nNão existem tarefas para serem deletadas\n")
@@ -185,7 +189,8 @@ def ajuda():
     "add [adicionar tarefa]\n" \
     "edt [editar uma tarefa]\n" \
     "rm [remover uma tarefa]\n" \
-    "sv [restaurar uma tarefa removida]\n" \
+    "sv [restaurar uma tarefa removida]\n"
+    " > sv -ccd [Restaurar uma tareda concluida]\n" \
     "ccd [concluir uma tarefa]\n" \
     "del [deletar tarefas]\n"
     " > del -ccd [deletar tarefas concluidas]\n"
@@ -221,7 +226,11 @@ while True:
     elif escolha == "sv":
         listar_tarefas("Lixeira")
         id_tarefa = int(input("Digite a ID da tarefa que deseja restaurar\n-> "))
-        restaurar_tarefa(id_tarefa)
+        restaurar_tarefa("Lixeira",id_tarefa)
+    elif escolha == "sv -ccd":
+        listar_tarefas("Concluidas")
+        id_tarefa = int(input("Digite a ID da tarefa que deseja restaurar\n-> "))
+        restaurar_tarefa("Concluidas", id_tarefa)
     elif escolha == "ccd":
         concluir_tarefa()
     elif escolha == "del":
