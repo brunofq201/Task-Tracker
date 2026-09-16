@@ -6,6 +6,8 @@ Um programa que rode em CLI onde o usuário pode cadastrar e gerenciar tarefas.
  - Concluir tarefa
  - Remover tarefa
  - Sair
+
+ !! essa é a main !!
 """
 
 import json
